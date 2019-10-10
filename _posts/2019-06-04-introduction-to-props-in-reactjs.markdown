@@ -10,7 +10,7 @@ Notes from the react course by TylerMcginnis
 Props are used in React for the purpose of data flow. We can pass data to a certain React component using props. Or in other words, the data passed to a component is stored in its `props` 
 
 
-###Passing data through direct values in props hash
+### Passing data through direct values in props hash
 
 When we instantiate a component by calling its tag `<User />` we can also pass data to this tag in this way - 
 
@@ -40,7 +40,7 @@ class User extends React.component{
 }
 ```
 
-###Passing data through a static hash
+### Passing data through a static hash
 There are other ways to pass data to the component as well. You could define static data and refer to it.
 
 ```
@@ -71,6 +71,8 @@ class User extends React.component{
 	)
 }
 ```
+
+### Passing data through nested components
 
 Another way would be to pass data to the nested components in a definition. That means within the definition of a component, we are instantiating other components
 
