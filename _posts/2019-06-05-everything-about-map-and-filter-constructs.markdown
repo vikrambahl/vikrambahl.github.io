@@ -3,7 +3,12 @@ layout: post
 title:  "A continuous exploration of .map and .filter in programming languages"
 date:   2019-06-05 19:30:00 +1000
 categories: programming react
+excerpt_separator: <!--more-->
 ---
+
+In a world of do-while and for-loops, Map and Filter provide a declarative way to traverse through collections. As a Ruby, Python and Javascript programmer, this is your quick reference guide to understanding the nuances of these amazing programing constructs.
+<!--more-->
+
 
 ### What are Map and Filter
 Map and filter are two functions that allow you to loop over the contents of an array or a hash. They are both in addition to traditional looping constructs like do-while-loops and for-loops. 

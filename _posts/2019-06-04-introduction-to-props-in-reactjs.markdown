@@ -3,9 +3,12 @@ layout: post
 title:  "Introduction to props in Reactjs"
 date:   2019-06-04 19:30:00 +1000
 categories: programming react
+excerpt_separator: <!--more-->
 ---
 
-Notes from the react course by TylerMcginnis
+Explain props to me like I am a five year old (that still knows React). This is essentially a beginner's guide that we can revisit when we need a quick refresher. 
+
+<!--more-->
 
 Props are used in React for the purpose of data flow. We can pass data to a certain React component using props. Or in other words, the data passed to a component is stored in its `props` 
 
