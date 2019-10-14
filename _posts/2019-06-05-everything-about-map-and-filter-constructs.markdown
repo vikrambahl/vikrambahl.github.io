@@ -2,13 +2,13 @@
 layout: post
 title:  "A continuous exploration of .map and .filter in programming languages"
 date:   2019-06-05 19:30:00 +1000
-categories: react
+categories: programming react
 ---
 
 ### What are Map and Filter
 Map and filter are two functions that allow you to loop over the contents of an array or a hash. They are both in addition to traditional looping constructs like do-while-loops and for-loops. 
 
-##### .map 
+#### .map 
 Map iterates through an array picking up one element at a time and doing the necessary action on them.
 
 ```
@@ -25,7 +25,7 @@ The returned values are stored in a new array and the original array is retained
 
 What's important to notice here is that we did not have to specify the starting point or the iteration counter or the condition to terminate the loop. All of those are implicitly understood by the map construct. 
 
-##### .filter 
+#### .filter 
 Filter iterates through the array or hash but returns only those elements which fulfil the condition. 
 
 ```

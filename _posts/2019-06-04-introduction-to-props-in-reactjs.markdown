@@ -2,7 +2,7 @@
 layout: post
 title:  "Introduction to props in Reactjs"
 date:   2019-06-04 19:30:00 +1000
-categories: react
+categories: programming react
 ---
 
 Notes from the react course by TylerMcginnis

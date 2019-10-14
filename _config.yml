@@ -23,6 +23,7 @@ twitter_username: vikrambahl
 github_username:  vikrambahl
 
 # Build settings
+show_excerpts: true
 markdown: kramdown
 theme: minima
 plugins:
