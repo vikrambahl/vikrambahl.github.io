@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "A continuous exploration of .map and .filter in programming languages"
-date:   2019-06-05 19:30:00 +1000
+date:   2019-06-15 19:30:00 +1000
 categories: programming react
 excerpt_separator: <!--more-->
 ---

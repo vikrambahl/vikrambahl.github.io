@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "A brief history of web APIs"
-date:   2019-06-08 06:30:00 +1000
+date:   2019-06-22 06:30:00 +1000
 categories: product-management apis
 excerpt_separator: <!--more-->
 ---

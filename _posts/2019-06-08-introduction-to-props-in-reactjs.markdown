@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Introduction to props in Reactjs"
-date:   2019-06-04 19:30:00 +1000
+date:   2019-06-08 19:30:00 +1000
 categories: programming react
 excerpt_separator: <!--more-->
 ---
