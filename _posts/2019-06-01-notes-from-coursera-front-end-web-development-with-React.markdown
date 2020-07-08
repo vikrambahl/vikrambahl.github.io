@@ -25,13 +25,12 @@ brew install node
 
 Install create-react-app (and not react-create-app. Its CRA not RCA). Don't forget the -g which stands for “global” mode, so that packages are installed into the prefix folder instead of the current working directory. 
 
-```
-packages are installed into the {prefix}/lib/node_modules folder, instead of the current working directory.
-bin files are linked to {prefix}/bin
-man pages are linked to {prefix}/share/man 
-```
+If --global flag is used, 
+- packages are installed into the {prefix}/lib/node_modules folder, instead of the current working directory.
+- bin files are linked to {prefix}/bin
+- man pages are linked to {prefix}/share/man 
 
-[npm cli flags reference][https://docs.npmjs.com/using-npm/config.html]
+[npm cli flags reference](https://docs.npmjs.com/using-npm/config.html)
 
 #### Installing Create-React-App 
 Generates the scaffold for the react application
@@ -39,5 +38,42 @@ Generates the scaffold for the react application
 ```
 npm install -g create-react-app
 ``` 
+
+### Scaffolding a blank React app and launching it 
+Just like `rails new app-name` in Ruby on Rails, the `create-react-app` generates the folder structure and the necessary files you need to begin your react project.
+
+```javascript 
+create-react-app application-name
+```
+
+In order to launch this application and see it in the browser you'll simply need to get inside the application-name folder and run `npm start`
+
+### React App Overview
+
+#### Deconstructing React folder structure
+```
+\application-name
+	\node_modules
+	\public
+		favicon.ico
+		index.html
+		manifest.json
+		robots.txt
+	\src
+		App.css
+		App.js
+		App.test.js
+		index.css
+		index.js
+		logo.svg
+		serviceWorker.js
+		setupTests.js
+	.gitignore
+	package-lock.json
+	package.json
+	README.md
+```
+
+### 
 
 
