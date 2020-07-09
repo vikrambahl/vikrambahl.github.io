@@ -6,7 +6,7 @@ categories: programming react
 excerpt_separator: <!--more-->
 ---
 
-Front End Web Development with React is a great introductory course to React. Of all the courses I found online, this one is the best for a beginner with no prior knowledge of React.
+Front End Web Development with React is a great introductory course on React. Of all the courses I found online, this one is the best for a beginner with no prior knowledge of React.
 
 <!--more-->
 
@@ -74,6 +74,42 @@ In order to launch this application and see it in the browser you'll simply need
 	README.md
 ```
 
-### 
+### ReactStrap - Bootstrap for React
 
+The first step is to install Bootstrap, followed by installing reactstrap and react-popper. 
 
+```
+npm install bootstrap
+npm install reactstrap
+npm install react-transition-group
+npm install react-popper
+```
+
+Once we have bootstrap, it needs to added to `index.js` in the src folder. 
+
+```
+import 'bootstrap/dist/css/bootstrap.min.css';
+``` 
+
+#### Styling with Bootstrap in React
+
+###### src/App.js
+
+```
+import { Navbar, NavbarBrand } from 'reactstrap'
+```
+
+###### Troubleshoot 
+
+```
+$ npm start
+npm ERR! code ENOENT
+npm ERR! syscall open
+npm ERR! path /Users/xxx/xxx/xxx/package.json
+npm ERR! errno -2
+npm ERR! enoent ENOENT: no such file or directory, open '/Users/xxx/xxx/xxx/package.json'
+npm ERR! enoent This is related to npm not being able to find a file.
+npm ERR! enoent 
+```
+
+This occured because I installed packages in the parent directory and not the React application directory. 
