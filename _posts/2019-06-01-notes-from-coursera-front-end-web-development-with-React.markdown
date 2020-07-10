@@ -42,7 +42,7 @@ npm install -g create-react-app
 ### Scaffolding a blank React app and launching it 
 Just like `rails new app-name` in Ruby on Rails, the `create-react-app` generates the folder structure and the necessary files you need to begin your react project.
 
-```javascript 
+```
 create-react-app application-name
 ```
 
@@ -93,14 +93,85 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 #### Styling with Bootstrap in React
 
-###### src/App.js
-
+_src/App.js_
 ```
 import { Navbar, NavbarBrand } from 'reactstrap'
 ```
 
-###### Troubleshoot 
+### Creating Components in React
 
+- User defined components must always start with a capital letter. These compile to React.createElement(...) 
+- Tags that start with a lower case letter are treated as DOM tags like h1 or p
+
+> While this is not a requisite, it makes sense to create a folder called components in the src folder. This folder would contain all of your components
+
+To create a component, start with  adding a file in the components folder
+```
+src/
+	components/
+		MenuComponent.js
+```
+
+The next step is to import the React libraries and create the class for our component. Notice that this class extends Component and has a constructor defined in it. 
+
+```javascript
+	import React, { Component } from 'react'
+
+	Class Menu extends Component {
+		constructor(props) {
+			super(props);
+		}
+	}
+```
+
+Every Component class must execute the `render()` function within which it returns the JSX powered HTML code. This JSX code is executed and then rendered as part of that component. 
+
+```javascript
+  import React, { Component } from 'react'
+
+  class Menu extends Component{
+
+  	constructor(props) {
+  		super(props);
+  	}
+
+  	render() {
+  		return (
+  			<div className="container">
+  				<div className="row">
+  					Menu starts here
+  				</div>
+  			</div>
+  		);
+  	}
+  }
+```
+
+This component is now available for us to use in our `App.js` file. Here we have added the Menu component within the Navbar and it will automatically show.
+
+```javascript
+import React from 'react'
+import Navbar, NavbarBrand from 'reactstrap'
+import Menu from 'MenuComponent'
+
+function App(){
+	return(
+		<div className='container'>
+			<Navbar>
+				<Manu />
+			</Navbar>
+		</div>
+	)
+}
+``` 
+
+
+
+---
+
+### Troubleshooting
+
+#### package.json not found
 ```
 $ npm start
 npm ERR! code ENOENT
