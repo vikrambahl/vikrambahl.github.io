@@ -165,10 +165,15 @@ function App(){
 }
 ``` 
 
+### State and Props
 
+- Components which are defined as class 
+
+    
 
 ---
-
+    
+    
 ### Troubleshooting
 
 #### package.json not found
