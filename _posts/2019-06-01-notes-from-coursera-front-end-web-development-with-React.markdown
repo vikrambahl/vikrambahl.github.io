@@ -82,7 +82,8 @@ The first step is to install Bootstrap, followed by installing reactstrap and re
 npm install bootstrap
 npm install reactstrap
 npm install react-transition-group
-npm install react-popper
+npm install react-popper @popperjs/core
+npm install jquery
 ```
 
 Once we have bootstrap, it needs to added to `index.js` in the src folder. 
@@ -169,12 +170,43 @@ function App(){
 
 - Components which are defined as class 
 
-    
+   
+#### Changing the State with setState
+
+State of a component should not be changed using a `=`. That means `this.state.selectedDish = 'Pie'` is not a valid method. Instead we need to use the `setState` method. 
+
+```javascript
+onDishSelect(dish){
+    this.setState( { selectedDish : dish} );
+}
+````
 
 ---
     
     
 ### Troubleshooting
+
+#### Incorrect import from a library
+
+```
+./src/App.js
+Attempted import error: 'reactstrap' does not contain a default export (imported as 'Navbar').
+```
+```
+ ~~ import Navbar, { NavbarBrand } from 'reactstrap'; ~~ #Incorrect
+ import { Navbar, NavbarBrand } from 'reactstrap'
+```
+
+#### Import Modules without the npm_modules in path
+
+index.js
+```
+~~ import './mode_modules/bootstrap/dist/css/bootstrap.min.css'; ~~
+import 'bootstrap/dist/css/bootstrap.min.css'; 
+```
+
+You don't need to have `./node_modules` in the path since NPM would by default look within the folder.
+
 
 #### package.json not found
 ```
