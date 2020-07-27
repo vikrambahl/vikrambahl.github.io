@@ -125,7 +125,8 @@ The next step is to import the React libraries and create the class for our comp
 	}
 ```
 
-Every Component class must execute the `render()` function within which it returns the JSX powered HTML code. This JSX code is executed and then rendered as part of that component. 
+Every Component class must execute the `render()` function within which it returns the JSX powered HTML code. render() is the most used method for any React powered component which returns a JSX with backend data. It is seen as a normal function but render() function has to return something whether it is null. If the DOM Node already contains content rendered by React, this content will be updated to reflect the new React Element.
+
 
 ```javascript
   import React, { Component } from 'react'
@@ -152,14 +153,14 @@ This component is now available for us to use in our `App.js` file. Here we have
 
 ```javascript
 import React from 'react'
-import Navbar, NavbarBrand from 'reactstrap'
+import { Navbar, NavbarBrand } from 'reactstrap'
 import Menu from 'MenuComponent'
 
 function App(){
 	return(
 		<div className='container'>
 			<Navbar>
-				<Manu />
+				<Menu />
 			</Navbar>
 		</div>
 	)
@@ -168,23 +169,223 @@ function App(){
 
 ### State and Props
 
-- Components which are defined as class 
+- Only those components which are defined as class can have a state. This is because the state is defined in the constructor only
 
+
+#### How to pass data or information between parent component and child component
+
+- The prevalent practice is to lift the `state` (of the app or components) up the chain to parent components so that any changes in state can be shared across the entire app
+- The state is then passed down to child components using `props`
+- Another prevalent practice demonstrated here is to use render to build a pseudo component and use it in he final  
+
+#### Storing the state in App.js
+ 
+- Notice that state is setup as a hash with dishes as key and the constant DISHES (which has been defined in dishes.js file) as the value
+- Further, the expression `<Menu  dishes:{ this.state.dishes } />` helps us pass this information down to the Menu component by making `dishes` available as props to the Menu component 
+
+_App.js_
+```
+import { DISHES } from './shared/dishes';
+
+...
+
+
+class App extends Component {
+
+    constructor(props) {
+
+        super(props);
+
+        this.state = {
+            dishes: DISHES
+        };
+
+    }
+
+ ...
+
+    return(
+      <Menu dishes={ this.state.dishes } />
+    );
+}
+```
+
+We refer to the variable `dishes=` in the called component through the use of props `this.props.dishes`  
+
+_MenuComponent.js_
+```
+...
+render() {
+        const menu = this.props.dishes.map((dish) => {
+            return (
+...
+```
+
+#### Capturing events that may modify state of a component 
+
+Now for the component, there are several events that can happen like clicks, scroll, drag etc. The usual practice is to capture these events in the state of the component. 
+
+We start with defining a state-variable `selectedDish` in which we can capture this event. We initiate it with the value `null`. 
+
+_MenuComponent.js_
+```
+...
+    contructor(props){
+        super(props);
+
+        this.state = {
+            selectedDish = null
+        }
+    }
+...
+```
+
+Further, we add a function that can capture the event and be invoked when it happens
+
+_MenuComponent.js_
+```
+...
+<Card onClick={() => this.onDishSelect(dish)}>
+...
+```
+
+We further create a function in the class called `onDishSelect()`. In this function we change the state by setting selectedDish to the dish that we have just clicked 
    
 #### Changing the State with setState
 
 State of a component should not be changed using a `=`. That means `this.state.selectedDish = 'Pie'` is not a valid method. Instead we need to use the `setState` method. 
 
 ```javascript
+...
+constructor(props){
+...    
+}
+
 onDishSelect(dish){
     this.setState( { selectedDish : dish} );
 }
+
 ````
+
+### Flow of control within a component class
+
+When a component is instantiated in JSX, the first part that is executed is the constructor. After that the control flows to render() function that executes. Within the render function ofcourse, we can call other functions (which would render something else).
+
+### Lifecycle of a react component
+
+Every React Component goes through the following stages in its lifecycle 
+- Mount
+- Update
+- Unmount
+
+Several lifecycle methods are available at each stage and these act as hooks to perform an action at that specific stage.
+
+#### Methods invoked at the time of Mounting
+
+- constructor()
+- getDerivedStateFromProps()
+- render()
+- componentDidMount() 
+- componentWillMount() is now deprecated
+
+The order in which they are executed is also as stated above. In fact `componentDidMount()` is executed after the component has been added.
+
+
+### Component Types
+
+#### Presentational Vs Container Components
+ 
+Presentational containers do not store any state and therefore don't even trigger change of state. They are purely for presentation purposes only. Container components are purely to contain/track states and then pass them to other presentational containers. They are usually used to fetch data from servers and pass it to presentational containers.
+
+
+#### Skinny Vs Fat Components
+
+Is also another name to the categories provided above. Skinny components do not carry any business logic (usually in the form of states). They are primarily concerned with the view logic. Fat components do have a lot of functional logic in the form of change of states etc.
+
+This is used to define the hierarchy of components. 
+
+#### Implementing Presentational and Container components
+
+#### App.js to Container component 
+
+We usually build a pseudo-container component called `MainComponent.js` and move mostly everything from App component to Main component. That means, all the presentation containers `Menu` and `DishDetail` are moved to Main. Even state information is now moved to MainComponent. 
+
+Since Main component is the container component, we would therefore move the `selectedDish` state and the onDishSelect() function out of `MenuComponent` and add it to `MainComponent`. 
+
+
+MainComponent.js
+```
+class Main extends Component {
+
+    constructor(props){
+        super(props);
+    
+
+        this.state = {
+            dishes: DISHES,
+            selectedDish: null
+        };
+    }
+
+    onDishSelect(dish){
+        this.setState(selectedDish: dish)
+    }
+
+...
+
+    <Menu dishes={this.state.dishes} />
+    <DishDetail dish={this.state.selectedDish} /> 
+}
+```
+
+#### Passing state from Presentation Component to Container Component
+
+In the example above, even though we have moved the state into MainComponent, we still need to have the clicked dish from MenuComponent passed back to the MainComponent. 
+
+This can be achieved by making the entire `<Menu />` component have an `onClick` function associated with it. This onClick on a component actually acts as a props and connects the `OnClick` function within the Component with the Component Tag wherever its called. Also note that the term in the brackets of `onClick={(dish.id) ... }` which is the dish.id would be used to receive the props back from onClick within the component. 
+
+In this specific case, instead of getting the entire dish passed through at onClick, we simply get the id of the dish passed back. Further, the `dish_id` that is passed back as props is then passed using `=>` to invoke the function `this.state.onDishSelect(dish_id)`
+
+_MainComponent.js_
+```
+    <Menu dishes={this.state.dishes} onClick={(dish_id) => this.state.onDishSelect(dish_id)}
+```
+
+We also make the chage to pass the onClick event back to a props OnClick function. 
+
+_MenuComponent.js_
+```
+    <Card onClick={() => this.props.onClick(dish.id)}
+```
+
+We also change the On Dish Select function to get the dish_id. The reason we have changed everything to Ids is because we already have the dishes array and we can always pull out the dish by using the `filter` on dishes array.
+
+```
+    onDishSelect(dish_id){
+        this.setState(selectedDishId: dish_id);
+    }
+
+ ...
+ 
+       
+```
+
+
 
 ---
     
     
 ### Troubleshooting
+
+
+#### Your render method should have return statement
+```
+./src/components/MenuComponent.js
+  Line 13:3:  Your render method should have return statement  react/require-render-return
+```
+
+
+
 
 #### Incorrect import from a library
 
