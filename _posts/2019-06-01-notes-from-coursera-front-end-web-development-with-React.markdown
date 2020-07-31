@@ -50,7 +50,7 @@ In order to launch this application and see it in the browser you'll simply need
 
 ### React App Overview
 
-#### Deconstructing React folder structure
+#### De-constructing React folder structure
 ```
 \application-name
 	\node_modules
@@ -304,7 +304,7 @@ Is also another name to the categories provided above. Skinny components do not 
 
 This is used to define the hierarchy of components. 
 
-#### Implementing Presentational and Container components
+### Implementing Presentational and Container components
 
 #### App.js to Container component 
 
@@ -351,7 +351,7 @@ _MainComponent.js_
     <Menu dishes={this.state.dishes} onClick={(dish_id) => this.state.onDishSelect(dish_id)}
 ```
 
-We also make the chage to pass the onClick event back to a props OnClick function. 
+We also make the change to pass the onClick event back to a props OnClick function. 
 
 _MenuComponent.js_
 ```
@@ -367,8 +367,69 @@ We also change the On Dish Select function to get the dish_id. The reason we hav
 
  ...
  
-       
+    < DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selecteddish)[0]} />
 ```
+
+### Methods invoked at the time of Updating
+
+- getDerivedStateFromProps()
+- shouldComponentUpdate()
+- render()
+- getSnapshotBeforeUpdate()
+- componentDidUpdate() which is executed after the updation has completed
+- ~~ componentWillReceiveProps() ~~ - deprecated
+- 
+
+These methods are invoked whenever the props that are passed to the component changes, or whenever the state of the component changes. 
+
+#### shouldComponentUpdate()
+However, if we wish to suspend a component from being updated whenever these changes occur, we should simply use the `shouldComponentUpdate()` method. The shouldComponentUpdate() method returns a boolean value and is defaulted to true. We can suspend Component updation by always returning `false` from this method. 
+
+#### getSnapshotBeforeUpdate()
+This method provides us the DOM values from before the update. An example is if we'd like to know the scroll position of the current DOM for our method. 
+
+### Class Components Vs Functional Component
+
+Until now, we have always implemented components as class components. This is done by defining a new class which extends the Component class from react. However, we also have an easier component category called the functional components.
+
+- Functional components do not have constructors or states
+- They simply depend upon props to complete their work and do not need to maintain any state
+- If a component is simply rendering a view with the data thats provided to it, then functional components is the way to go
+
+#### Implementing Menu as a functional component
+
+Until now, we've implemented all of the components as class components. However, since we have noticed that Menu doesn't store any state and is entirely absorbed with just displaying the information passed down to it through props, its a good candidate for this transformation.
+
+In functional components, the name of the component is implemented as a function. This is the function thats executed when control passes to the Component. Therefore in our case
+
+```
+class Menu extends component{
+
+}
+```
+
+is replaced with 
+
+```
+function Menu(props) {
+
+}
+```
+
+Another way to implement the same is through the ES6 `=>` format
+
+```
+  const Menu = (props) => {
+
+  }
+```
+
+We can use either way to implement the functional component. 
+- All `this.state.props` are replaced with simply `props`
+- Constructor is deleted
+- We don't need to `import { Component } from 'react'` 
+
+If we are aware of what our props really look like then we can even replace `props` with an actual `hash` that props denote
 
 
 
@@ -377,15 +438,28 @@ We also change the On Dish Select function to get the dish_id. The reason we hav
     
 ### Troubleshooting
 
+#### Dish Detail was just blank
+
+Dish detail was blank because we were passing an array instead of the individual object. This happened because `.filter()` method returns an array even if its a single object in the array. 
+
+Therefore changed
+```
+{this.state.dishes.filter( (dish) => dish.id === this.state.selecteddish)}
+```
+
+which returned an array, to
+
+```
+{this.state.dishes.filter((dish) => dish.id === this.state.selecteddish)[0]}
+```
+
+where we added the [0] element which was actually a dish element.
 
 #### Your render method should have return statement
 ```
 ./src/components/MenuComponent.js
   Line 13:3:  Your render method should have return statement  react/require-render-return
 ```
-
-
-
 
 #### Incorrect import from a library
 
