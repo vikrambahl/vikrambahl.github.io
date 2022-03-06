@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title:  "How I built my first ever Rails-6 engine - Developer Notes"
