@@ -1,18 +1,16 @@
 ---
 layout: post
-title:  "How I built my first ever Rails-6 engine - Developer Notes"
-date:   2021-07-25 10:46:44 +0530
+title:  "How I built my first ever Rails-6 engine - Part I - Setting up the engine"
+date:   2021-04-22 10:46:44 +0530
 categories: developer-notes rails rails-engine
 excerpt_separator: <!--more-->
 ---
 
-These are my notes from when I began building a Rails engine. What I am creating here is a blog++ application. It is not a tutorial. Instead these are steps and stumbles along the journey to build my very first Rails Engine. My principle reason to learn engines was because I wanted to explore an alternative to microservices. However, I am going to keep this first engine simple and not build them as APIs just yet. That's because I want to avoid having to build a separate front end for the purpose of this exercise.
+These are my notes from when I began building a Rails engine. It is not a tutorial. Instead these are steps and stumbles along the journey to build my very first blogging tool in the form of a Rails 6 Engine. My principle reason to learn engines was because I wanted to explore an alternative to microservices. However, for simplicity, this engine is not designed as API First (which is how I would build microservices).
 
 <!--more-->
 
-# Step 1 - Setup
-
-## Create a rails engine
+## Step 1 - Create a rails engine
 
 Create a new engine in rails using the rails plugin command
 ```
@@ -64,17 +62,19 @@ Instead, if you'd like to continue building the engine separately, you can do so
 `gem 'content_engager', path: '../content-marketing-engine/'`
 
 
-## Step 2 Generate the first few models
+## Step 2 Setting up the gemspec
+
+The next step we carried out was to define the articles model for our blog. 
 
 `bin/rails generate scaffold article title:string body:text permalink:string nature:integer status:integer excerpt:text`
 
-This generated an error
+Unfortunately, that generated an error
 ```
 The gemspec at /home/dev/projects/engagers/engagers.gemspec is not valid. Please fix this gemspec. (Gem::InvalidSpecificationException)
 The validation error was '"FIXME" or "TODO" is not a description'
 ```
  
-I was able to finx this when I replaced all the TODO and fill all the http-urls in the content_engager.gemspec file
+I was able to fix this when I replaced all the TODO and filled all the http-urls in the content_engager.gemspec file
 
 ## Step 3
 Install the gems for mysql or sqllite3 and change the Gemfile of the engine by adding 
@@ -87,7 +87,7 @@ end
 
 The reason we have to put sqlite3 is because the dummy app for testing in `/test/dummy` has a `database.yml` which has `sqlite database` defined in them. This dummy app essetially behaves like a host app where this engine could be added.
 
-### Step 2 should now work, so execute it
+### Step 4 Create your first model
 
 Generate the scaffold for your very first model. 
 ```
@@ -96,11 +96,11 @@ bin/rails generate scaffold article title:string body:text permalink:string natu
 
 This creates all the usual files that a scaffold adds including the migrations etc. 
 
-## Step 4
+## Step 5 - Copy migrations to UserFacingApplication
 
-The next step is to run the migration of the engine in the main user-facing application. However `bin/rails db:migrate` in the root folder of the user-facing application does not make any difference
+The next step is to run the migration of the engine in the main user-facing application. However `bin/rails db:migrate` in the root folder of the user-facing application does not automatically pick up the migrations from the engine. 
 
-Rails provides a solution where once you have a fully-complete and ready engine, at the time of installation of that engine, you can copy all the migrations from the engine to the main user-facing app. This can be done by an out of box functionality provided by engines - 
+Rails provides a solution, where once you have a fully-complete and ready engine, at the time of installation of that engine, you can copy all the migrations from the engine to the main user-facing app. This can be done by an out of box functionality provided by engines - 
 
 ```
 bin/rails content_engager:install:migrations
@@ -228,4 +228,42 @@ Next I added another file called `/app/javascript/packs/js/articles.js`. Now if 
 
   `<%= javascript_pack_tag 'articles' %>`
 
-  
+  Unfortunately that stopped working soon enough and deleting the public folder wouldn't generate the necessary js files. The actual command to compile and create the json files is 
+
+  `bin/webpack`
+
+  Once we executed that command, it started adding the right files.
+
+  The other change we did was to add a `app/javascripts/src` folder. The intention was to avoid putting all of the model javascripts in the packs folder. 
+
+  ```
+  /app
+    /javascripts
+      /packs
+        application.js
+      /src
+        articles.js
+  ```
+
+  We further changed the `app/javascripts/packs/application.js` files and added the following lines to it
+
+  `import '../src/articles.js'`
+
+  and then just `bin/webpack` 
+
+## Step 9 - Install Font Awesome fonts 
+
+Adding Font Awesome turned out to be trickier than we had earlier anticipated. The usual recommendation is to use yarn to add fontawesome
+
+`yarn add @fortawesome/fontawesome-free`
+
+Further add this to `javascript/packs/application.js`
+
+```
+import "@fortawesome/fontawesome-free/js/all";
+import "@fortawesome/fontawesome-free/css/all"
+```
+
+For whatever reason this didn't work initially. I thereafter tried adding fontawesome to `app/assets/stylesheets/application.scss` but that didn't work. Finally, after restarting a few times, the font awesome started working.
+
+
